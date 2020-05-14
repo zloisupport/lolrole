@@ -6,55 +6,65 @@
  Script Function:
 #ce ----------------------------------------------------------------------------
 
-HotKeySet("{NUMPAD2}",SupportRole)
 HotKeySet("{NUMPAD0}",ExitScript)
-HotKeySet("{NUMPAD3}",MidLane)
 HotKeySet("{NUMPAD1}",ADCRole)
+HotKeySet("{NUMPAD2}",SupportRole)
+HotKeySet("{NUMPAD3}",MidLane)
 HotKeySet("{NUMPAD4}",JUNGLELane)
 HotKeySet("{NUMPAD5}",TopLane)
-
-
+HotKeySet("{NUMPAD8}",KillGame)
 While 1
 WEnd
 
 Func WinMov()
-   $HWND=WinWait("[TITLE:League of Legends]","",5)
+  Global $HWND=WinWait("[TITLE:League of Legends]","",5)
    IF NOT $HWND Then
 	  MsgBox(0,"Error", "Window not Found")
    Else
+	  $aPos = WinGetPos($HWND)
 	  WinActivate($HWND)
-	  WinMove($HWND,"",146, 53,1280, 720)
-	  MouseClick("left",194, 601)
+      if($aPos[3] == 576) Then
+		    WinMove($HWND,"",184, 76,$aPos[2],$aPos[3])
+			MouseClick("left",222, 624)
+		 Else
+			WinMove($HWND,"",43, 44,$aPos[2],$aPos[3])
+		 	MouseClick("left",76, 731)
+	  EndIf
    EndIf
 EndFunc
 
 Func MidLane()
    WinMov()
-   Send("MID lane")
+   Send("MID lane" & @LF & "Средняя линия")
    Send("{ENTER}")
 EndFunc
 
 Func TopLane()
    WinMov()
-   Send("TOP lane")
+   Send("TOP lane" & @LF & "Вверхния линия")
    Send("{ENTER}")
+EndFunc
+
+
+Func KillGame()
+  ProcessClose("LeagueClient.exe")
 EndFunc
 
 Func JUNGLELane()
    WinMov()
-   Send("JUNGLE")
+   Send("JUNGLE" & @LF & "Лесник")
    Send("{ENTER}")
 EndFunc
 
 Func SupportRole()
    WinMov()
-   Send("Bot lane role(support)")
+   Send("Bot lane role(support)" & @LF & "Нижния линия ,роль Поддержки")
    Send("{ENTER}")
 EndFunc
 
 Func ADCRole()
    WinMov()
-   Send("Bot lane role(adc)")
+   Send("Bot lane role(adc)" & @LF & "Нижния линия ,роль Кэрии")
    Send("{ENTER}")
 EndFunc
 
